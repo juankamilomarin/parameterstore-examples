@@ -30,7 +30,7 @@ func main() {
 
 type MapParameterStore struct{}
 
-func (ps MapParameterStore) GetParams(paramMap map[string]string) error {
+func (ps MapParameterStore) GetParams(paramNames []string) (map[string]string, error) {
 	p := map[string]string{
 		"dbusername":     "admin",
 		"dbpassword":     "admin123",
@@ -39,11 +39,12 @@ func (ps MapParameterStore) GetParams(paramMap map[string]string) error {
 		"enablehttps":    "true",
 	}
 
-	for key := range paramMap {
+	paramMap := map[string]string{}
+	for _, key := range paramNames {
 		if key == "error" {
-			return errors.New("cannot get parameters")
+			return map[string]string{}, errors.New("cannot get parameters")
 		}
 		paramMap[key] = p[key]
 	}
-	return nil
+	return paramMap, nil
 }

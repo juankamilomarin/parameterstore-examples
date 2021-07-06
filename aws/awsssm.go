@@ -28,7 +28,11 @@ func getSSMClient() *ssm.SSM {
 
 type SSMParameterStore struct{}
 
-func (ps SSMParameterStore) GetParams(paramMap map[string]string) error {
+func (ps SSMParameterStore) GetParams(paramNames []string) (map[string]string, error) {
+	paramMap := map[string]string{}
+	for _, key := range paramNames {
+		paramMap[key] = ""
+	}
 	ssmsvc := getSSMClient()
 	input := &ssm.GetParametersInput{WithDecryption: aws.Bool(true)}
 	for paramName := range paramMap {
@@ -41,5 +45,5 @@ func (ps SSMParameterStore) GetParams(paramMap map[string]string) error {
 	for _, p := range result.Parameters {
 		paramMap[*p.Name] = *p.Value
 	}
-	return nil
+	return paramMap, nil
 }

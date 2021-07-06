@@ -7,13 +7,14 @@ import (
 
 type EnvVarParameterStore struct{}
 
-func (ps EnvVarParameterStore) GetParams(paramMap map[string]string) error {
-	for key := range paramMap {
+func (ps EnvVarParameterStore) GetParams(paramNames []string) (map[string]string, error) {
+	paramMap := map[string]string{}
+	for _, key := range paramNames {
 		value := os.Getenv(key)
 		if value == "" {
-			return fmt.Errorf(`environment variable %s does not exist`, key)
+			return map[string]string{}, fmt.Errorf(`environment variable %s does not exist`, key)
 		}
 		paramMap[key] = value
 	}
-	return nil
+	return paramMap, nil
 }
