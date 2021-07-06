@@ -40,7 +40,7 @@ func (ps SSMParameterStore) GetParams(paramNames []string) (map[string]string, e
 	}
 	result, err := ssmsvc.GetParameters(input)
 	if err != nil {
-		return err
+		return map[string]string{}, err
 	}
 	for _, p := range result.Parameters {
 		paramMap[*p.Name] = *p.Value
