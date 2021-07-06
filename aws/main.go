@@ -9,7 +9,7 @@ import (
 
 const tagName = "awsSsmParamName"
 
-// The values of the gat awsSsmParamName are the names of the
+// The values of the tag awsSsmParamName are the names of the
 // parameters stored in AWS SSM Parameter Store
 type appParams struct {
 	DbUsername     string        `awsSsmParamName:"/myapp/dbnameusername"`
